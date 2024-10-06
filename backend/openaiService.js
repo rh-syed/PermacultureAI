@@ -1,24 +1,23 @@
-const { Configuration, OpenAIApi } = require('openai');
+const { OpenAI } = require("openai");
 
 class OpenAIService {
-  constructor() {
-    const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
+  constructor(apiKey) {
+    this.openai = new OpenAI({
+      apiKey: apiKey,
     });
-    this.openai = new OpenAIApi(configuration);
   }
 
   async getResponse(prompt) {
     try {
-      const completion = await this.openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt,
-        max_tokens: 150,
+      const response = await this.openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [{ role: "user", content: prompt }],
       });
-      return completion.data.choices[0].text.trim();
+      console.log(response.choices[0].message);
+      return response.choices[0].message.content;
     } catch (error) {
-      console.error(error);
-      throw new Error('Failed to get response from OpenAI');
+      console.error("OpenAI API error:", error);
+      throw new Error("Failed to get response from OpenAI");
     }
   }
 }
