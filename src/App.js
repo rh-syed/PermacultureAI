@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState, useEffect } from "react";
+import ChatInterface from "./ChatInterface";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -17,7 +18,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Permaculture Expert</h1>
-        <p>{message}</p>
+        <ChatInterface />
       </header>
     </div>
   );
